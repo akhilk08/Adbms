@@ -1,0 +1,276 @@
+CEC@user:~$ mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("dff7f284-f6c2-49ba-8429-fd0aa8cb0976") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2025-05-20T13:37:27.503+0530 I STORAGE  [initandlisten] 
+2025-05-20T13:37:27.503+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2025-05-20T13:37:27.503+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2025-05-20T13:37:32.900+0530 I CONTROL  [initandlisten] 
+2025-05-20T13:37:32.900+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2025-05-20T13:37:32.900+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2025-05-20T13:37:32.900+0530 I CONTROL  [initandlisten] 
+> use Akhil
+switched to db Akhil
+> db
+Akhil
+> db.dropDatabase();
+{ "ok" : 1 }
+> db
+Akhil
+> db.dropDatabase(Akhil);
+2025-05-20T13:48:28.275+0530 E QUERY    [thread1] ReferenceError: Akhil is not defined :
+@(shell):1:1
+> db
+Akhil
+> db.createCollection("Student");
+{ "ok" : 1 }
+> db.createCollection("Teacher");
+{ "ok" : 1 }
+> show collections;
+Student
+Teacher
+> db.Teacher.drop();
+true
+> show collections;
+Student
+> db.Student.insert({"roll no": 1,"name": "Aby"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({"roll no": 2,"name": "Manu"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({"roll no": 2,"name": "Manu","address":"Cherthala"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({"roll no": 3,"name": "Akhila","address":"Alappuzha"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.find();
+{ "_id" : ObjectId("682c3c5e20bb4630ccc233b3"), "roll no" : 1, "name" : "Aby" }
+{ "_id" : ObjectId("682c3c7d20bb4630ccc233b4"), "roll no" : 2, "name" : "Manu" }
+{ "_id" : ObjectId("682c3ca920bb4630ccc233b5"), "roll no" : 2, "name" : "Manu", "address" : "Cherthala" }
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Alappuzha" }
+> db.Student.find.pretty();
+2025-05-20T13:58:30.818+0530 E QUERY    [thread1] TypeError: db.Student.find.pretty is not a function :
+@(shell):1:1
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3c5e20bb4630ccc233b3"),
+	"roll no" : 1,
+	"name" : "Aby"
+}
+{
+	"_id" : ObjectId("682c3c7d20bb4630ccc233b4"),
+	"roll no" : 2,
+	"name" : "Manu"
+}
+{
+	"_id" : ObjectId("682c3ca920bb4630ccc233b5"),
+	"roll no" : 2,
+	"name" : "Manu",
+	"address" : "Cherthala"
+}
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Alappuzha"
+}
+> db.Student.insert({"_id":1,"roll no":4,"name": "Arathy","address":"TVM"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3c5e20bb4630ccc233b3"),
+	"roll no" : 1,
+	"name" : "Aby"
+}
+{
+	"_id" : ObjectId("682c3c7d20bb4630ccc233b4"),
+	"roll no" : 2,
+	"name" : "Manu"
+}
+{
+	"_id" : ObjectId("682c3ca920bb4630ccc233b5"),
+	"roll no" : 2,
+	"name" : "Manu",
+	"address" : "Cherthala"
+}
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Alappuzha"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.find().pretty().limit(3);
+{
+	"_id" : ObjectId("682c3c5e20bb4630ccc233b3"),
+	"roll no" : 1,
+	"name" : "Aby"
+}
+{
+	"_id" : ObjectId("682c3c7d20bb4630ccc233b4"),
+	"roll no" : 2,
+	"name" : "Manu"
+}
+{
+	"_id" : ObjectId("682c3ca920bb4630ccc233b5"),
+	"roll no" : 2,
+	"name" : "Manu",
+	"address" : "Cherthala"
+}
+> db.Student.find().pretty().skip(2);
+{
+	"_id" : ObjectId("682c3ca920bb4630ccc233b5"),
+	"roll no" : 2,
+	"name" : "Manu",
+	"address" : "Cherthala"
+}
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Alappuzha"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.remove({"roll no":1});
+WriteResult({ "nRemoved" : 1 })
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3c7d20bb4630ccc233b4"),
+	"roll no" : 2,
+	"name" : "Manu"
+}
+{
+	"_id" : ObjectId("682c3ca920bb4630ccc233b5"),
+	"roll no" : 2,
+	"name" : "Manu",
+	"address" : "Cherthala"
+}
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Alappuzha"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.remove({"roll no":2});
+WriteResult({ "nRemoved" : 2 })
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Alappuzha"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.uipdate({"roll no":3}{$set:{"address":"Kollam"}});
+2025-05-20T14:17:59.800+0530 E QUERY    [thread1] SyntaxError: missing ) after argument list @(shell):1:32
+> db.Student.uipdate({"roll no":3},{$set:{"address":"Kollam"}});
+2025-05-20T14:18:40.936+0530 E QUERY    [thread1] TypeError: db.Student.uipdate is not a function :
+@(shell):1:1
+> db.Student.update({"roll no":3},{$set:{"address":"Kollam"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Kollam"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.find.sort({"name":1});
+2025-05-20T14:24:37.039+0530 E QUERY    [thread1] TypeError: db.Student.find.sort is not a function :
+@(shell):1:1
+> db.Student.find.Sort({"name":1});
+2025-05-20T14:24:53.287+0530 E QUERY    [thread1] TypeError: db.Student.find.Sort is not a function :
+@(shell):1:1
+> db.Student.find().sort({"name":1});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+> db.Student.find().sort({"name":-1});
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+> db.Student.insert({"_id":1,"roll no":1,"name": "Aby","address":"Kottayam"});
+WriteResult({
+	"nInserted" : 0,
+	"writeError" : {
+		"code" : 11000,
+		"errmsg" : "E11000 duplicate key error collection: Akhil.Student index: _id_ dup key: { : 1.0 }"
+	}
+})
+> db.Student.insert({"_id":2,"roll no":1,"name": "Aby","address":"Kottayam"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({"_id":3,"roll no":2,"name": "Manu","address":"Alappuzha"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({"_id":4,"roll no":5,"name": "Arya","address":"Idukki"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.find().pretty();
+{
+	"_id" : ObjectId("682c3ce420bb4630ccc233b6"),
+	"roll no" : 3,
+	"name" : "Akhila",
+	"address" : "Kollam"
+}
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find().sort({"name":1});
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+> db.Student.find({"roll no":5});
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"roll no":{$ne:5}});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+> db.Student.find({"roll no":{$/t:5}});
+2025-05-20T14:33:22.350+0530 E QUERY    [thread1] SyntaxError: missing : after property id @(shell):1:29
+> db.Student.find({"roll no":{$\t:5}});
+2025-05-20T14:33:31.238+0530 E QUERY    [thread1] SyntaxError: illegal character @(shell):1:29
+> db.Student.find({"roll no":{$gt}});
+2025-05-20T14:34:01.158+0530 E QUERY    [thread1] ReferenceError: $gt is not defined :
+@(shell):1:29
+> db.Student.find({"roll no":{$gt:5}});
+> db.Student.find({"roll no":{$gt:1}});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"roll no":{$gte:1}});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"roll no":{$gte:4}});
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"roll no":{$lte:5}});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"name":/*A/});
+2025-05-20T14:42:57.229+0530 E QUERY    [thread1] SyntaxError: unterminated comment @(shell):1:24
+> db.Student.find({"name":/^A/});
+{ "_id" : ObjectId("682c3ce420bb4630ccc233b6"), "roll no" : 3, "name" : "Akhila", "address" : "Kollam" }
+{ "_id" : 1, "roll no" : 4, "name" : "Arathy", "address" : "TVM" }
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 4, "roll no" : 5, "name" : "Arya", "address" : "Idukki" }
+> db.Student.find({"$and.[{"roll no":2},{"name":"Aby"}]});
+2025-05-20T14:51:02.506+0530 E QUERY    [thread1] SyntaxError: missing : after property id @(shell):1:26
+> db.Student.find({$and.[{"roll no":2},{"name":"Aby"}]});
+2025-05-20T14:52:02.111+0530 E QUERY    [thread1] SyntaxError: missing : after property id @(shell):1:21
+> db.Student.find({$and:[{"roll no":2},{"name":"Aby"}]});
+> db.Student.find({$and:[{"roll no":1},{"name":"Aby"}]});
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+> db.Student.find({$or:[{"roll no":2},{"name":"Aby"}]});
+{ "_id" : 2, "roll no" : 1, "name" : "Aby", "address" : "Kottayam" }
+{ "_id" : 3, "roll no" : 2, "name" : "Manu", "address" : "Alappuzha" }
+> 
+
